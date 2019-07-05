@@ -28,6 +28,7 @@ Apart from these we will find at the top of the window a **MenuBar**, with the c
 ## Screenshots
 ![Debug Tools](https://i.imgur.com/C2j2jX6.png)
 
+![Balls everywhere](https://i.imgur.com/t0jcNAb.png)
 ## Interesting references
 * [imgui_demo.cpp](https://github.com/ocornut/imgui/blob/master/imgui_demo.cpp)
 

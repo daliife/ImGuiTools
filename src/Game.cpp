@@ -29,7 +29,7 @@ void Game::init(int w, int h) {
     animation_system_.init();
 
     graphics_system_.screen_background_color = lm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-    createFreeCamera_(23,8,26, -0.8, -0.11, -0.448);
+    createFreeCamera_(41,16,25,-0.819, -0.179,-0.545);
 
 
 	/******** SHADERS **********/
@@ -41,6 +41,7 @@ void Game::init(int w, int h) {
 	int geom_floor = graphics_system_.createGeometryFromFile("data/assets/floor_40x40.obj");
 	int cubemap_geometry = graphics_system_.createGeometryFromFile("data/assets/cubemap.obj");
 	int sphere_geom = graphics_system_.createGeometryFromFile("data/assets/sphere.obj");
+	//int cloud_geom = graphics_system_.createGeometryFromFile("data/assets/Cloud_2.fbx");
 
 	/******** SKYBOX **********/
 	std::vector<std::string> cube_faces{
@@ -64,36 +65,31 @@ void Game::init(int w, int h) {
 	ref_mat.cube_map = cubemap_texture;
 	ref_mat.name = "Reflective Material";
 
-
 	/******** ENTITIES **********/
 
-	//phong sphere
-	int sphere_entity = ECS.createEntity("phong_sphere");
-	ECS.getComponentFromEntity<Transform>(sphere_entity).translate(1.0f, 6.0f, 5.0f);
-	Mesh& sphere_mesh = ECS.createComponentForEntity<Mesh>(sphere_entity);
-	sphere_mesh.geometry = sphere_geom;
-	sphere_mesh.material = mat_blue_check_index;
-	Collider& sphere_collider = ECS.createComponentForEntity<Collider>(sphere_entity);
-	sphere_collider.collider_type = ColliderTypeBox;
-	sphere_collider.local_halfwidth = lm::vec3(1, 1, 1);
-	sphere_collider.max_distance = 100.0f;
+	static const int NUM_ROWS = 10;
+	static const int NUM_COLUMNS = 10;
 
-	//reflective sphere
-	int ref_entity = ECS.createEntity("reflection_sphere");
-	ECS.getComponentFromEntity<Transform>(ref_entity).translate(-1.5f, 10.0f, 10.0f);
-	Mesh& ref_mesh = ECS.createComponentForEntity<Mesh>(ref_entity);
-	ref_mesh.geometry = sphere_geom;
-	ref_mesh.material = mat_reflection_index;
-	Collider& reflection_collider = ECS.createComponentForEntity<Collider>(ref_entity);
-	reflection_collider.collider_type = ColliderTypeBox;
-	reflection_collider.local_halfwidth = lm::vec3(0.8f, 0.8f, 0.8f);
-	reflection_collider.max_distance = 100.0f;
+	for (size_t i = 0; i < NUM_ROWS; i++) {
+		for (size_t j = 0; j < NUM_ROWS; j++) {
+			string name = "Sphere_"  + to_string(i) + to_string(j);
+			int sphere_entity = ECS.createEntity(name.c_str());
+			ECS.getComponentFromEntity<Transform>(sphere_entity).translate(i * 5, 25.0f, j * 5);
+			Mesh& sphere_mesh = ECS.createComponentForEntity<Mesh>(sphere_entity);
+			sphere_mesh.geometry = sphere_geom;
+			sphere_mesh.material = (j % 2 == 0) && (i % 2 == 0) ? mat_blue_check_index : mat_reflection_index;
+			Collider& sphere_collider = ECS.createComponentForEntity<Collider>(sphere_entity);
+			sphere_collider.collider_type = ColliderTypeBox;
+			sphere_collider.local_halfwidth = lm::vec3(0.8f,0.8f,0.8);
+			sphere_collider.max_distance = 100.0f;
+		}
 
+	}
 
 	/******** TERRAIN **********/
 	ImageData noise_image_data;
 	Shader* terrain_shader = graphics_system_.loadShader("data/shaders/phong.vert", "data/shaders/terrain.frag");
-	float terrain_height = 20.0f;
+	float terrain_height = 30.0f;
 
 	int mat_terrain_index = graphics_system_.createMaterial();
 	Material& mat_terrain = graphics_system_.getMaterial(mat_terrain_index);
