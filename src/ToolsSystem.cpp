@@ -31,7 +31,7 @@ void ToolsSystem::init(GraphicsSystem* gs) {
 	
 	//Styling IMGUI
 	ImGuiStyle& style = ImGui::GetStyle();
-	style.FrameRounding = 12.0f;
+	style.FrameRounding = 2.5f;
 	style.WindowBorderSize = 0.0f;
 	style.FrameBorderSize = 0.0f;
 	style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
@@ -107,7 +107,8 @@ void ToolsSystem::update(float dt, float current_fps) {
 		ImGui::SetNextWindowBgAlpha(1.0f); // Transparent background
 		if (ImGui::Begin("Instructions", p_open, (corner != -1 ? ImGuiWindowFlags_NoMove : 0) | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav))
 		{
-			ImGui::Text("PRESS 'ALT + 0' TO TOGGLE DEBUG MODE.");
+			ImGui::TextColored(ImVec4(0, 1, 0, 1), "DEBUG MODE ACTIVE");
+			ImGui::Text("Press 'ALT + 0' to toggle it between On and Off.");
 		}
 		ImGui::End();
 
@@ -559,6 +560,17 @@ void ToolsSystem::UpdateMenuBar(ImGuiIO &io)
 			ImGui::Checkbox("Quick actions", &show_quick_actions);
 			ImGui::Dummy(ImVec2(0.0f, 5.0f));
 			ImGui::Checkbox("Console", &show_app_console);
+			ImGui::Dummy(ImVec2(0.0f, 5.0f));
+			ImGui::Separator();
+			ImGui::Dummy(ImVec2(0.0f, 5.0f));
+			if(ImGui::SmallButton("Toggle All")) {
+				show_hierarchy = !show_hierarchy;
+				show_materials = !show_materials;
+				show_inspector = !show_inspector;
+				show_statistics = !show_statistics;
+				show_quick_actions = !show_quick_actions;
+				show_app_console = !show_app_console;
+			};
 			ImGui::Dummy(ImVec2(0.0f, 5.0f));
 
 			ImGui::EndMenu();

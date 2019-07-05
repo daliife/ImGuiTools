@@ -77,7 +77,7 @@ int main(void)
 
     // Create a windowed mode window and its OpenGL context
 
-    window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Hello OpenGL!", NULL, NULL);
+    window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "ImGui Tools Project", NULL, NULL);
     if (!window)
     {
         glfwTerminate();

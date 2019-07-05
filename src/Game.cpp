@@ -29,7 +29,7 @@ void Game::init(int w, int h) {
     animation_system_.init();
 
     graphics_system_.screen_background_color = lm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-    createFreeCamera_(13.614, 16, 32, -0.466, -0.67, -0.579);
+    createFreeCamera_(23,8,26, -0.8, -0.11, -0.448);
 
 
 	/******** SHADERS **********/
